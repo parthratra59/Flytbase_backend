@@ -1,5 +1,5 @@
 import express from "express";
-import { dbConnect } from "./config/database.js";
+import { dbConnect } from "./config/database";
 // cookie-Parser is the middleware
 import cookieParser from "cookie-parser";
 import UserRoute from "./routes/user.routes";
