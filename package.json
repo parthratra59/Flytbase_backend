@@ -5,8 +5,8 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "build": "npx tsc",
-    "start": "npx tsc && node dist/index.js",
+    "build": "tsc",
+    "start": "node public/index.js",
     "dev": "npx tsc && nodemon src/index.ts "
   },
   "repository": {
