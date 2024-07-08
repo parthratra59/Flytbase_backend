@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
-  "type": "module",
+
   "scripts": {
     "build": "tsc",
-    "start": "node public/index.js",
+    "start": "node dist/index.js",
     "dev": "npx tsc && nodemon src/index.ts "
   },
   "repository": {
