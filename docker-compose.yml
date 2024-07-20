@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  #mongoDb service
+  mongo_db:
+    image: mongo:latest
+    restart: always
+    volumes:
+     # Use a named volume for MongoDB data to persist across container restarts otherwise all the data will be lost
+    #  bydefault docker stores data in the /data/db
+       - mongodb_data:/data/db
+
+  #node.js api service
+  # 
+  api:
+  # it will build the dockerfile it is present in  the same directory that's why we have used "."
+    build : .
+  # expose ports 
+    ports:
+      # Map port 3000 inside the container to port 4000 on the host machine 
+      - 4000:3000
+    # environment variables
+    environment:
+      PORT: 3000
+      MONGODB_URI: mongodb+srv://ratraparth59:1225079@cluster0.9zzvie2.mongodb.net
+      ACCESS_TOKEN_SECRET: ratraparth59
+      ACCESS_TOKEN_EXPIRY: 1d
+      REFRESH_TOKEN_SECRET: ratraparth79
+      REFRESH_TOKEN_EXPIRY: 10d
+    depends_on:
+      # Ensure the MongoDB service is started before the application service
+      - mongo_db
+    volumes:
+      - .:/app  # Mount the current directory to /app in the container
+
+volumes:
+  mongodb_data: {}
+
+

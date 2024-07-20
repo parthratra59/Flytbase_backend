@@ -12,35 +12,41 @@ export interface MissionModel extends Document {
     }
   ];
 
-  drone_id: string;
-  site: Types.ObjectId;
-  category: Types.ObjectId;
+  droneID: Types.ObjectId;
+  siteID: Types.ObjectId;
+  userID: Types.ObjectId;
+  categoryID: Types.ObjectId | null;
 }
 
 const MissionSchema: Schema<MissionModel> = new Schema(
   {
-    alt: { type: Number, required: true },
-    speed: { type: Number, required: true },
-    name: { type: String, required: true },
+    alt: { type: Number, required: true ,trim: true },
+    speed: { type: Number, required: true, trim: true },
+    name: { type: String, required: true, trim:true , unique: true },
     waypoints: [
       {
-        altitude: { type: Number, required: true },
-        latitude: { type: Number, required: true },
-        longitude: { type: Number, required: true },
+        altitude: { type: Number, required: true ,trim: true },
+        latitude: { type: Number, required: true , trim: true },
+        longitude: { type: Number, required: true, trim: true },
       },
     ],
 
-    drone_id: { type: String, ref: "Drone", required: true },
-    site: { type: Schema.Types.ObjectId, ref: "Sites", required: true },
-    category: {
+    droneID: { type: Schema.Types.ObjectId, ref: "Drone", required: true },
+    siteID: { type: Schema.Types.ObjectId, ref: "Sites", required: true },
+    userID: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    categoryID: {
       type: Schema.Types.ObjectId,
-      required: true,
+      // required: true,
       ref: "Categories",
+      default: null,
+      
     },
   },
   {
     timestamps: true,
   }
 );
+
+
 
 export const Mission = mongoose.model("Mission", MissionSchema);

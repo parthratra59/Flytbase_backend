@@ -5,6 +5,7 @@ import ApiError from "../utils/apiError";
 import ApiResponse from "../utils/apiResponse";
 import { UserModel } from "../models/User.model";
 import { checkUser, AuthRequest } from "../utils/Authrequest";
+import jwt from "jsonwebtoken";
 
 const generateAccessandRefreshToken = async (userID: string) => {
   try {
@@ -17,7 +18,7 @@ const generateAccessandRefreshToken = async (userID: string) => {
     const accessToken = getUser.generateAccessToken();
     const refreshToken = getUser.generateRefreshToken();
 
-    // Add refresh token to the database
+    // Add refresh token to the User database
     getUser.refreshToken = refreshToken;
 
     // Save the updated user record to the database
@@ -37,7 +38,7 @@ export const UserSignup = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
 
     if ([username, email, password].some((field) => field.trim() === "")) {
-      throw new ApiError(400, "All fields are required");
+      return res.status(400).json(new ApiError(400, "All fields are required"));
     }
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -136,7 +137,7 @@ export const loginUser = async (req: Request, res: Response) => {
         new ApiResponse(
           200,
           {
-            //  we user want to store accesstoken and refresh token in the local storage that's why i am sending it in the data
+            // if  we user want to store accesstoken and refresh token in the local storage that's why i am sending it in the data
             fetcheduser: accessToken,
             refreshToken,
           },
@@ -149,6 +150,66 @@ export const loginUser = async (req: Request, res: Response) => {
     return res.status(500).json(new ApiError(500, "Failed to login user"));
   }
 };
+ 
+export const refreshAccesToken = async (req: Request, res: Response) => {
+  try {
+    const incomingRefreshToken =
+      req.cookies.refreshToken || req.body.refreshToken; // body for the mobile application
+    if (!incomingRefreshToken) {
+      return res.status(401).json(new ApiError(401, "unauthorized request"));
+    }
+    // verify needs token and refresh token
+    const decodedToken = jwt.verify(
+      incomingRefreshToken,
+      process.env.REFRESH_TOKEN_SECRET as string
+    ) as { _id: string };
+
+
+    const user = await User.findById(decodedToken?._id);
+
+
+    if(!user)
+    {
+      return res.status(401).json(new ApiError(401,
+        "Invalid refresh token"))
+    }
+
+    // user.refreshtoken it was stored in the UserDatabase
+
+    if(incomingRefreshToken !== user?.refreshToken)
+    {
+      return res.status(401).json(new ApiError(401,
+        "Refresh Token is expired"))
+    }
+
+
+    // now new accesstoken will be generated
+    const options = {
+      httpOnly: true,
+      secure: true,
+    };
+
+    const {accessToken,refreshToken}=await generateAccessandRefreshToken(user._id as string)
+
+    return res.status(200)
+    .cookie("accessToken",accessToken,options)
+    .cookie("refreshToken",refreshToken,options).
+    json(
+      new ApiResponse(
+        200,
+        {
+          accessToken,
+          refreshToken,
+        },
+        "access token refreshed successfully"
+      )
+    )
+
+  } catch (error) {
+
+    return res.status(401).json(new ApiError(401, "Invalid refresh token"));
+  }
+};
 
 // getUserById
 export const getUserById = async (req: Request, res: Response) => {
@@ -156,7 +217,7 @@ export const getUserById = async (req: Request, res: Response) => {
     const { uID } = req.params;
     const user = await User.findById(uID).select("-password -refreshToken");
     if (!user) {
-      throw new ApiError(404, "User not found");
+      return res.status(404).json(new ApiError(404, "User Not Found"));
     }
 
     return res
@@ -175,7 +236,6 @@ export const logoutUser = async (req: AuthRequest, res: Response) => {
 
     // Update the user's refreshToken to undefined
 
-  
     await User.findByIdAndUpdate(
       req.insertprop?._id,
       {

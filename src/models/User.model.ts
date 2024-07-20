@@ -55,10 +55,11 @@ UserSchema.methods.generateAccessToken = function() {
 
 UserSchema.methods.generateRefreshToken = function() {
   
-  const payload = {
+
+  return jwt.sign({
     _id: this._id,
-  };
-  return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, {
+   
+  }, process.env.REFRESH_TOKEN_SECRET as string, {
     expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
   });
 };
