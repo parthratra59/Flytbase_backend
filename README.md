@@ -108,17 +108,21 @@ The server will be running on http://localhost:3000.
 
 ## Signup Credentials
 Here are the credentials to sign up:
+```bash
 {
     "username": "parth ratra",
     "email": "parth79@gmail.com",
     "password": "Waheu@122"
 }
+```
 
 ## Login Credentials
+```bash
 {
     "email": "parth79@gmail.com",
     "password": "Waheu@122"
 }
+```
 
 ## Docker 🚀
 
