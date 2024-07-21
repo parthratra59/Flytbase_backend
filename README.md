@@ -154,9 +154,9 @@ Replace <localmachineport> with the port you want to use on your local machine.
 ### Sites
 1. POST /sites/createSite - Create a new site
 
-2.GET /sites/getdroneBySiteName - Get drones by the site's name
+2. GET /sites/getdroneBySiteName - Get drones by the site's name
 
-3.PUT /sites/updateSiteName - Update a site by its name
+3. PUT /sites/updateSiteName - Update a site by its name
 
 4. DELETE /sites/deleteSiteByID/:sID - Delete a site by its ID
 
@@ -174,7 +174,7 @@ Replace <localmachineport> with the port you want to use on your local machine.
 
 2. POST /categories/associate_Mission/:categoryID - Associate a mission with a category
 
-3 .POST /categories/associate_Drone/:categoryID - Associate a drone with a category
+3. POST /categories/associate_Drone/:categoryID - Associate a drone with a category
 
 4. PUT /categories/updateCategory/:categoryID - Update a category
 
