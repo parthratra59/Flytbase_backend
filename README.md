@@ -5,7 +5,7 @@
 Welcome to the Flytbase Backend API! This repository contains the backend server for the Flytbase project, developed using Node.js, Express, MongoDB, and TypeScript. The server is containerized using Docker and hosted on Render.
 
 
-## 🚀 Live Deployed Link: https://paymentstepper.netlify.app/
+## 🚀 Live Deployed Link: https://flytbase-backend.onrender.com/api/v1
 
 
 ### 🛠️ Tech Stack
