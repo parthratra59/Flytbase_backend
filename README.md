@@ -141,7 +141,7 @@ Replace <localmachineport> with the port you want to use on your local machine.
 ### Drones
 1. POST /drones/addDrone - Add a new drone
 
-2.POST /drones/addSiteToDrone/:dID - Add site to a drone
+2. POST /drones/addSiteToDrone/:dID - Add site to a drone
 
 3. PUT /drones/updateDrone/:dID - Update a drone by its ID
 
