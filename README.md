@@ -67,7 +67,7 @@ To run the project locally, follow these steps:
 1. Clone the repository:
 
 ```bash
-https://github.com/parthratra59/stepper.git
+https://github.com/parthratra59/Flytbase_backend.git
 ```
 
 2. Navigate to the project directory:
@@ -76,30 +76,117 @@ https://github.com/parthratra59/stepper.git
 cd <projectdictonary>
 ```
 
-3. Install the required dependencies for both the frontend and backend.:
+3. Install dependencies:
 
 ```bash
 npm install
 ```
 
-4. Configure your environment variables, including API keys and database connections.
-
-5. Start the project locally (Run the frontend and backend servers):
+4. Create a .env file in the root directory and add your MongoDB connection string and other environment variables:
 
 ```bash
-# For the frontend
-npm run dev
+PORT=3000
 
-# For the backend
-cd stepper_server
-npm run dev
+MONGODB_URI=mongodb+srv://ratraparth59:1225079@cluster0.9zzvie2.mongodb.net
+
+ACCESS_TOKEN_SECRET=ratraparth59
+ACCESS_TOKEN_EXPIRY=1d
+REFRESH_TOKEN_SECRET=ratraparth79
+REFRESH_TOKEN_EXPIRY=10d
 ```
 
+Although it is not recommended to include .env files in GitHub, the repository is private, so this file has not been deleted.
 
 
+6. Start the server :
+
+```bash
+npm run dev
+```
+The server will be running on http://localhost:3000.
 
 
+## Docker 🚀
+
+To run the server using Docker, follow these steps:
+
+1. Pull the Docker image:
+
+```bash
+docker pull ratraparth59/flytbase_server
+```
+
+2. Run the Docker container:
+
+```bash
+docker run -it -p <localmachineport>:3000 ratraparth59/flytbase_server
+```
+Replace <localmachineport> with the port you want to use on your local machine.
 
 
+## API Documentation 📚 
 
+### Users
+1. POST /users/signup - User signup
+
+2. POST /users/login - User login
+
+3. GET /users/getUserById/:uID - Get a user by their ID
+
+4. POST /users/logout - User logout
+
+5. POST /users/refreshToken - Refresh access token
+
+
+### Drones
+1. POST /drones/addDrone - Add a new drone
+
+2.POST /drones/addSiteToDrone/:dID - Add site to a drone
+
+3. PUT /drones/updateDrone/:dID - Update a drone by its ID
+
+4. GET /drones/getAllDrones - Retrieve all drones
+
+5. DELETE /drones/deleteDrone/:dID - Delete a drone by its ID
+
+6. PUT /drones/moveSiteByID/:dID - Move a drone to a different site by its ID
+
+### Sites
+1. POST /sites/createSite - Create a new site
+
+2.GET /sites/getdroneBySiteName - Get drones by the site's name
+
+3.PUT /sites/updateSiteName - Update a site by its name
+
+4. DELETE /sites/deleteSiteByID/:sID - Delete a site by its ID
+
+### Missions
+1. POST /missions/addMissions - Add a new mission
+
+2. GET /missions/getMissions/site/:sID - Get missions by site ID with pagination
+
+3. PUT /missions/updateMission/:mID - Update a mission
+
+4. DELETE /missions/deleteMission/:mID - Delete a mission
+
+### Categories
+1. POST /categories/addCategory - Add a new category
+
+2. POST /categories/associate_Mission/:categoryID - Associate a mission with a category
+
+3 .POST /categories/associate_Drone/:categoryID - Associate a drone with a category
+
+4. PUT /categories/updateCategory/:categoryID - Update a category
+
+5. PUT /categories/changeMissionCategory/:mID - Change the category of a mission
+
+6. PUT /categories/changeDroneCategory/:dID - Change the category of a drone
+
+7. DELETE /categories/delete_Mission_Category/:categoryID - Delete a category from missions
+
+8. DELETE /categories/delete_Drone_Category/:categoryID - Delete a category from drones
+
+9. GET /categories/getMissions_Category/:categoryID - Get missions of a category by category ID
+
+10. GET /categories/getDrones_Category/:categoryID - Get drones of a category by category ID
 
