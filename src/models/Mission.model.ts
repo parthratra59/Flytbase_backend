@@ -32,12 +32,12 @@ const MissionSchema: Schema<MissionModel> = new Schema(
     ],
 
     droneID: { type: Schema.Types.ObjectId, ref: "Drone", required: true },
-    siteID: { type: Schema.Types.ObjectId, ref: "Sites", required: true },
+    siteID: { type: Schema.Types.ObjectId, ref: "Site", required: true },
     userID: { type: Schema.Types.ObjectId, ref: "User", required: true },
     categoryID: {
       type: Schema.Types.ObjectId,
       // required: true,
-      ref: "Categories",
+      ref: "Category",
       default: null,
       
     },

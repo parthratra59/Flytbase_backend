@@ -160,7 +160,10 @@ const changeCategoryofMission = (req, res) => __awaiter(void 0, void 0, void 0, 
         const { categoryID } = req.body;
         const { mID } = req.params;
         // Find the mission by ID
-        const mission = yield Mission_model_1.Mission.findById(mID);
+        const mission = yield Mission_model_1.Mission.findById({
+            _id: mID,
+        });
+        console.log("fdnfd", mission);
         if (!mission) {
             return res.status(404).json({ message: "Mission not found" });
         }
@@ -214,14 +217,11 @@ const changeCategoryofDrones = (req, res) => __awaiter(void 0, void 0, void 0, f
 });
 exports.changeCategoryofDrones = changeCategoryofDrones;
 const deleteCategoryFromparticularMissions = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     try {
         const { categoryID } = req.params;
         const { missionID } = req.body;
-        const user_id = (_a = req.insertprop) === null || _a === void 0 ? void 0 : _a._id;
         const category = yield Categories_model_1.Category.findOne({
             _id: categoryID,
-            userID: user_id,
         });
         if (!category) {
             return res.status(404).json(new apiError_1.default(404, "Category not found"));
@@ -249,14 +249,11 @@ const deleteCategoryFromparticularMissions = (req, res) => __awaiter(void 0, voi
 });
 exports.deleteCategoryFromparticularMissions = deleteCategoryFromparticularMissions;
 const deleteCategoryFromParticuarDrones = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     try {
         const { categoryID } = req.params;
         const { droneID } = req.body;
-        const user_id = (_a = req.insertprop) === null || _a === void 0 ? void 0 : _a._id;
         const category = yield Categories_model_1.Category.findOne({
             _id: categoryID,
-            userID: user_id,
         });
         if (!category) {
             return res.status(404).json(new apiError_1.default(404, "Category not found"));
@@ -276,7 +273,6 @@ const deleteCategoryFromParticuarDrones = (req, res) => __awaiter(void 0, void 0
         }
         yield Categories_model_1.Category.findByIdAndUpdate({
             _id: categoryID,
-            user_id,
         }, {
             $pull: { drones: droneID },
         });

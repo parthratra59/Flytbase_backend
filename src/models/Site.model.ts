@@ -31,7 +31,7 @@ const SitesSchema: Schema<SitesModel> = new Schema(
       },
     },
     drones: [{ type: mongoose.Schema.ObjectId, ref: "Drone",default:null }],
-    missions: [{ type: mongoose.Schema.ObjectId, ref: "Missions",default:null }],
+    missions: [{ type: mongoose.Schema.ObjectId, ref: "Mission",default:null }],
     userID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

@@ -17,7 +17,7 @@ const morgan_1 = __importDefault(require("morgan"));
 dotenv_1.default.config();
 (0, database_1.dbConnect)();
 const app = (0, express_1.default)();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
 app.use(express_1.default.json({
     limit: "16kb",
 }));

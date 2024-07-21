@@ -31,7 +31,8 @@ const droneSchema: Schema<DroneModel> = new Schema(
 
     siteID: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Sites",
+      ref: "Site",
+      default: null,
       // required: true,
     },
     userID: {
@@ -41,12 +42,12 @@ const droneSchema: Schema<DroneModel> = new Schema(
     },
     missionID: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Missions",
+      ref: "Mission",
       default: null,
     },
     categoryID: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Categories",
+      ref: "Category",
       default: null,
     },
   },

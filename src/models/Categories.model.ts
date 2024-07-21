@@ -20,7 +20,7 @@ const CategorySchema: Schema<CategoryModel> = new Schema(
       default :null
     },
     missions: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "Missions", default: null }, // Add Mission ID here
+      { type: mongoose.Schema.Types.ObjectId, ref: "Mission", default: null }, // Add Mission ID here
     ],
     drones: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Drone", default: null }, // Add Drone ID here

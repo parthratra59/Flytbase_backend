@@ -213,8 +213,11 @@ export const changeCategoryofMission = async (
     const { mID } = req.params;
 
     // Find the mission by ID
-    const mission = await Mission.findById(mID);
+    const mission = await Mission.findById({
+      _id: mID,
+    });
 
+   
     if (!mission) {
       return res.status(404).json({ message: "Mission not found" });
     }
@@ -253,6 +256,7 @@ export const changeCategoryofMission = async (
         )
       );
   } catch (error) {
+    console.error("Error changing category of mission:", error); 
     return res
       .status(500)
       .json(new ApiError(500, "Failed to change category of mission"));
@@ -298,6 +302,7 @@ export const changeCategoryofDrones = async (req: Request, res: Response) => {
         )
       );
   } catch (error) {
+    console.log(error)
     return res
       .status(500)
       .json(new ApiError(500, "Failed to change category of drone"));
@@ -310,11 +315,11 @@ export const deleteCategoryFromparticularMissions = async (
   try {
     const { categoryID } = req.params;
     const { missionID } = req.body;
-    const user_id = req.insertprop?._id;
+   
 
     const category = await Category.findOne({
       _id: categoryID,
-      userID: user_id,
+      
     });
 
     if (!category) {
@@ -359,11 +364,12 @@ export const deleteCategoryFromParticuarDrones = async (
   try {
     const { categoryID } = req.params;
     const { droneID } = req.body;
-    const user_id = req.insertprop?._id;
+   
 
     const category = await Category.findOne({
       _id: categoryID,
-      userID: user_id,
+
+    
     });
 
     if (!category) {
@@ -393,7 +399,7 @@ export const deleteCategoryFromParticuarDrones = async (
     await Category.findByIdAndUpdate(
       {
         _id: categoryID,
-        user_id,
+        
       },
       {
         $pull: { drones: droneID },
@@ -406,6 +412,7 @@ export const deleteCategoryFromParticuarDrones = async (
         new ApiResponse(200, null, "Category deleted successfully from Drones")
       );
   } catch (error) {
+    console.log(error)
     return res
       .status(500)
       .json(new ApiError(500, "Failed to delete category from Drones"));
@@ -472,6 +479,7 @@ export const getMissionsofCategoryID = async (req: Request, res: Response) => {
       )
     );
   } catch (error) {
+    console.log(error)
     return res
       .status(500)
       .json(new ApiError(500, "Failed to get missions of a category"));

@@ -80,6 +80,12 @@ export const addSite_to_Drone = async (req: AuthRequest, res: Response) => {
       return res.status(404).json(new ApiError(404, "Site not found"));
     }
 
+    if (existingDrone.siteID !== null) {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Drone already has a site assigned"));
+    }
+
     // Add the site to the drone's drones array
     const addSite = await Drone.findByIdAndUpdate(
       {
@@ -277,10 +283,17 @@ export const moveSiteofDrone = async (req: AuthRequest, res: Response) => {
       return res.status(404).json(new ApiError(404, "New site not found"));
     }
 
+    // Check if the new site is different from the current site
+    if (drone.siteID && drone.siteID.toString() === newSiteID.toString()) {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Drone is already assigned to this site"));
+    }
+
     const updatedDrone = await Drone.findByIdAndUpdate(
       {
         _id: dID,
-        user_id: req.insertprop?._id, // btw no need to pass this
+      
       },
       {
         $set: {

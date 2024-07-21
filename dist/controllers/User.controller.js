@@ -129,6 +129,7 @@ exports.loginUser = loginUser;
 const refreshAccesToken = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken; // body for the mobile application
+        console.log(incomingRefreshToken, "sdfnfds");
         if (!incomingRefreshToken) {
             return res.status(401).json(new apiError_1.default(401, "unauthorized request"));
         }
@@ -140,7 +141,9 @@ const refreshAccesToken = (req, res) => __awaiter(void 0, void 0, void 0, functi
         }
         // user.refreshtoken it was stored in the UserDatabase
         if (incomingRefreshToken !== (user === null || user === void 0 ? void 0 : user.refreshToken)) {
-            return res.status(401).json(new apiError_1.default(401, "Refresh Token is expired"));
+            return res
+                .status(401)
+                .json(new apiError_1.default(401, "Refresh Token is expired"));
         }
         // now new accesstoken will be generated
         const options = {
@@ -148,10 +151,11 @@ const refreshAccesToken = (req, res) => __awaiter(void 0, void 0, void 0, functi
             secure: true,
         };
         const { accessToken, refreshToken } = yield generateAccessandRefreshToken(user._id);
-        return res.status(200)
+        return res
+            .status(200)
             .cookie("accessToken", accessToken, options)
-            .cookie("refreshToken", refreshToken, options).
-            json(new apiResponse_1.default(200, {
+            .cookie("refreshToken", refreshToken, options)
+            .json(new apiResponse_1.default(200, {
             accessToken,
             refreshToken,
         }, "access token refreshed successfully"));
